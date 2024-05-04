@@ -1,9 +1,10 @@
-import pandas as pd
+import pandas as pd # type: ignore
 
 def gen(df, filename):
     try:
         if isinstance(df, pd.DataFrame):
-            df.to_excel(filename, index=False)
+            path = "outputs/" + filename
+            df.to_excel(path, index=False)
             print(f"Excel file '{filename}' generated successfully.")
         else:
             print("Error: Input is not a pandas DataFrame.")
