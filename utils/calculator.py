@@ -7,7 +7,7 @@ def log_tf(tf):
     else:
         return 1 + math.log(tf)
 
-def tf_on_matrix(tf_matrix):
+def tf(tf_matrix):
     for i in range(1, len(tf_matrix)):
         for j in range(1, len(tf_matrix[i])):
             tf = tf_matrix[i][j]

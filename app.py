@@ -60,21 +60,6 @@ def generate_matrix(word_doc_list):
     return matrix
 
 def main():
-    # directory = config.DATA_URL
-    # stopwords = stopword.load()
-    # documents = parse_text(directory)
-    # for document in documents:
-    #     stem_data.append(stem.process_text(document,stopwords))
-    
-    # word_count_list = create_word_count_list()
-    # unique_words_list = stem.get_unique_words(word_count_list)
-    # term_document_matrix = generate_matrix(word_count_list)
-    # print("Number of words:",len(unique_words_list))
-    # term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
-    # gen_ecxel.gen(term_document_matrix_df, "outputs/raw-data.xlsx",)
-    # tf_matrix = calculator.tf_on_matrix(term_document_matrix)
-    # gen_ecxel.gen(tf_matrix, "outputs/tf-data.xlsx",)
-
     directory = config.DATA_URL
     stopwords = stopword.load()
     documents = parse_text(directory)
@@ -86,20 +71,21 @@ def main():
     term_document_matrix = generate_matrix(word_count_list)
     idf_values = calculator.idf(term_document_matrix)
     tf_idf_matrix = calculator.tf_idf(term_document_matrix, idf_values)
+    tf_matrix = calculator.tf(term_document_matrix)
     
     # Print number of unique words
+
     print("Number of words:", len(unique_words_list))
-    
-    # Convert term-document matrix to DataFrame and generate Excel
     term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
     gen_ecxel.gen(term_document_matrix_df, "outputs/raw-data.xlsx")
-    
-    # Convert TF matrix to DataFrame and generate Excel
-    tf_matrix = calculator.tf_on_matrix(term_document_matrix)
+
+
+    idf_df = pd.DataFrame(idf_values.items(), columns=["Word", "IDF"])
+    gen_ecxel.gen(idf_df, "outputs/idf-data.xlsx")
+
     tf_matrix_df = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
     gen_ecxel.gen(tf_matrix_df, "outputs/tf-data.xlsx")
 
-    # Convert TF-IDF matrix to DataFrame and generate Excel
     tf_idf_matrix_df = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
     gen_ecxel.gen(tf_idf_matrix_df, "outputs/tf-idf-data.xlsx")
 
