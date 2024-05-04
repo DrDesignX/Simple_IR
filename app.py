@@ -1,12 +1,11 @@
 import os
-import pandas as pd
+import pandas as pd # type: ignore
 from utils import stem
 from utils import calculator
 from utils import config
 from utils import search
 from utils import stopword
 from utils import gen_ecxel
-from flask import Flask # type: ignore
 
 stem_data = []
 
