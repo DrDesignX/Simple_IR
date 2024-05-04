@@ -1,11 +1,10 @@
-install:
-    pip install -r requirements.txt
-
-# test:
-#     python -m unittest discover -s tests -p '*_test.py'
+setup: requirements.txt
+	pip install -r requirements.txt
 
 run:
-    python app.py
+	python app.py
 
 clean:
-    rm -rf __pycache__ .pytest_cache
+	rm -rf __pycache__
+
+.PHONY: setup run clean
