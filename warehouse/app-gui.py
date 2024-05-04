@@ -1,26 +1,44 @@
-from flask import Flask, render_template
-import pandas as pd
-import plotly.graph_objs as go
+import tkinter as tk
+from tkinter import filedialog
+import os
 
-app = Flask(__name__)
+def browse_for_folder():
+  """
+  Opens a file dialog to select a folder for input.
+  """
+  global input_folder_path
+  input_folder_path.set(tk.filedialog.askdirectory())
+  folder_name_label.config(text=f"Input Folder: {input_folder_path.get()}")
 
-@app.route('/')
-def index():
-    # خواندن داده‌ها از فایل CSV
-    path= 'outputs/raw-data.xlsx'
-    df = pd.read_excel(path)
-    # ایجاد نمودار
-    heatmap = go.Heatmap(
-        z=df.values.tolist(),
-        colorscale='Viridis'
-    )
-    layout = go.Layout(title='Heatmap')
-    fig = go.Figure(data=heatmap, layout=layout)
+def process_files(log_area):
+  if not input_folder_path.get():
+    log_area.insert(tk.END, "Error: Please select an input folder.\n")
+    return
 
-    # تبدیل نمودار به کد HTML
-    plot_html = fig.to_html(full_html=False)
+  # Simulate processing files in the input folder
+  log_area.insert(tk.END, f"Processing files in: {input_folder_path.get()}\n")
+  for filename in os.listdir(input_folder_path.get()):
+    log_area.insert(tk.END, f"- Processing file: {filename}\n")
+  log_area.insert(tk.END, "Processing completed.\n")
 
-    return render_template('index.html', plot_html=plot_html)
+# Main window
+root = tk.Tk()
+root.title("File Processor")
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Input folder selection
+input_folder_path = tk.StringVar()
+folder_name_label = tk.Label(root, text="Input Folder:")
+folder_name_label.pack()
+
+browse_button = tk.Button(root, text="Browse", command=browse_for_folder)
+browse_button.pack()
+
+# Log area
+log_area = tk.Text(root, height=10, width=50)
+log_area.pack()
+
+# Process button
+process_button = tk.Button(root, text="Process Files", command=lambda: process_files(log_area))
+process_button.pack()
+
+root.mainloop()
