@@ -1,5 +1,5 @@
 import os
-import pandas as pd # type: ignore
+import pandas as pd
 from utils import stem
 from utils import calculator
 from utils import config
@@ -73,7 +73,6 @@ def main():
     tf_idf_matrix = calculator.tf_idf(term_document_matrix, idf_values)
     tf_matrix = calculator.tf(term_document_matrix)
     
-    # Print number of unique words
     print("Number of words:", len(unique_words_list))
     
     term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
