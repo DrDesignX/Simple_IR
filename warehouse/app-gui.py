@@ -3,9 +3,6 @@ from tkinter import filedialog
 import os
 
 def browse_for_folder():
-  """
-  Opens a file dialog to select a folder for input.
-  """
   global input_folder_path
   input_folder_path.set(tk.filedialog.askdirectory())
   folder_name_label.config(text=f"Input Folder: {input_folder_path.get()}")
@@ -15,7 +12,6 @@ def process_files(log_area):
     log_area.insert(tk.END, "Error: Please select an input folder.\n")
     return
 
-  # Simulate processing files in the input folder
   log_area.insert(tk.END, f"Processing files in: {input_folder_path.get()}\n")
   for filename in os.listdir(input_folder_path.get()):
     log_area.insert(tk.END, f"- Processing file: {filename}\n")

@@ -1,5 +1,5 @@
 import os
-import pandas as pd
+import pandas as pd # type: ignore
 from utils import stem
 from utils import calculator
 from utils import config

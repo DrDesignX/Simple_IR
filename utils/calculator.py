@@ -1,5 +1,5 @@
 import math
-import pandas as pd
+import pandas as pd # type: ignore
 
 def log_tf(tf):
     if tf == 0 or tf < 0 :
