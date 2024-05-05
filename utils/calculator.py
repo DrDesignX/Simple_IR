@@ -2,19 +2,18 @@ import math
 import pandas as pd # type: ignore
 
 def log_tf(tf):
-    if tf == 0 or tf < 0 :
+    if tf == 0:
         return 0  # Logarithm of 0 is undefined
     else:
         return 1 + math.log(tf)
 
 def tf(tf_matrix):
-    for i in range(1, len(tf_matrix)):
+    for i in range(1,len(tf_matrix)):
         for j in range(1, len(tf_matrix[i])):
-            tf = tf_matrix[i][j]
+            tf = int(tf_matrix[i][j])
             tf_matrix[i][j] = log_tf(tf)
     return tf_matrix
 
-import math
 
 def idf(term_document_matrix):
     num_documents = len(term_document_matrix[0]) - 1  # Subtract 1 for the header row

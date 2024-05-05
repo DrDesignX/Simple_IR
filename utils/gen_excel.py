@@ -5,8 +5,8 @@ def gen(df, filename):
         if isinstance(df, pd.DataFrame):
             path = "outputs/" + filename
             df.to_excel(path, index=False)
-            print(f"Excel file '{filename}' generated successfully.")
+            return (f"'{filename}' generated successfully.")
         else:
-            print("Error: Input is not a pandas DataFrame.")
+            return ("Error: Input is not a pandas DataFrame.")
     except Exception as e:
-        print(f"An error occurred while generating Excel file: {e}")
+        return (f"An error occurred while generating Excel file: {e}")

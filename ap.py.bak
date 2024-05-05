@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog
 import os
+from tkinter import messagebox
 import pandas as pd # type: ignore
 from utils import stem
 from utils import calculator
@@ -57,7 +58,7 @@ def generate_matrix(word_doc_list):
         matrix[row][0] = word
         for col, word_count in enumerate(word_doc_list, start=1):
             count = word_count.get(word, 0)
-            matrix[row][col] = int(count)
+            matrix[row][col] = count
     return matrix
 
 def generate_word_count(filename):
@@ -83,7 +84,41 @@ def main():
         folder_path = filedialog.askdirectory()
         config.DATA_URL = folder_path
         folder_path_var.set(folder_path)
-        root.destroy()
+        # root.destroy()
+
+    def generate_files():
+        directory = config.DATA_URL
+        print(directory)
+        stopwords = stopword.load()
+        documents = parse_text(directory)
+        for document in documents:
+            stem_data.append(stem.process_text(document, stopwords))
+        word_count_list = create_word_count_list()
+
+        unique_words_list = stem.get_unique_words(word_count_list)
+        num_unique_words = len(unique_words_list)
+        print("Number of words:", num_unique_words)
+        
+        output_message = generate_word_count("word_count.txt")
+        # messagebox.showinfo("Generation Status", output_message)
+
+        output_message_raw = gen_excel.gen(pd.DataFrame(word_count_list[1:], columns=word_count_list[0]), "raw-data.xlsx")
+        # messagebox.showinfo("Generation Status", output_message_raw)
+
+        tf_matrix = calculator.tf(word_count_list)
+        tf_matrix_df = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
+        output_message_tf = gen_excel.gen(tf_matrix_df, "tf-data.xlsx")
+        # messagebox.showinfo("Generation Status", output_message_tf)
+
+        idf_values_df = calculator.idf(word_count_list)
+        idf_df = pd.DataFrame(idf_values_df.items(), columns=["Word", "IDF"])
+        output_message_idf = gen_excel.gen(idf_df, "idf-data.xlsx")
+        # messagebox.showinfo("Generation Status", output_message_idf)
+
+        tf_idf_matrix = calculator.tf_idf(word_count_list, tf_matrix_df)
+        tf_idf_matrix_df = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
+        output_message_tf_idf = gen_excel.gen(tf_idf_matrix_df, "tf-idf-data.xlsx")
+        # messagebox.showinfo("Generation Status", output_message_tf_idf)
 
     root = tk.Tk()
     root.title("Choose a folder")
@@ -97,41 +132,11 @@ def main():
     folder_label.pack()
     select_button = tk.Button(root, text="Browse", command=select_folder)
     select_button.pack()
+
+    generate_button = tk.Button(root, text="Generate", command=generate_files)
+    generate_button.pack()
+
     root.mainloop()
-    
-    directory = config.DATA_URL
-    print(directory)
-    stopwords = stopword.load()
-    documents = parse_text(directory)
-    for document in documents:
-        stem_data.append(stem.process_text(document, stopwords))
-    word_count_list = create_word_count_list()
-
-    unique_words_list = stem.get_unique_words(word_count_list)
-    num_unique_words = len(unique_words_list)
-    print("Number of words:", num_unique_words)
-
-    print(generate_word_count("word_count.txt"))
-
-    term_document_matrix = generate_matrix(word_count_list)
-    term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
-    print(term_document_matrix_df)
-    # gen_excel.gen(term_document_matrix_df, "raw-data.xlsx")
-
-    tf_matrix = calculator.tf(term_document_matrix)
-    tf_matrix_df = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
-    print(tf_matrix_df)
-    # gen_excel.gen(tf_matrix_df, "tf-data.xlsx")
-
-    idf_values_df = calculator.idf(term_document_matrix)
-    idf_df = pd.DataFrame(idf_values_df.items(), columns=["Word", "IDF"])
-    print(idf_df)
-    # # gen_excel.gen(idf_df, "idf-data.xlsx")
-
-    tf_idf_matrix = calculator.tf_idf(term_document_matrix, idf_values_df)
-    tf_idf_matrix_df = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
-    print(tf_idf_matrix_df)
-    # # gen_excel.gen(tf_idf_matrix_df, "tf-idf-data.xlsx")
 
 if __name__ == "__main__":
     main()
