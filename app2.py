@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from utils import stem, calculator, config, stopword, gen_ecxel
-from flask import Flask, jsonify
+from flask import Flask, jsonify # type: ignore
 
 app = Flask(__name__)
 
@@ -24,6 +24,18 @@ def get_tf_matrix():
     term_document_matrix = generate_matrix(word_count_list)
     tf_matrix = calculator.tf(term_document_matrix)
     return jsonify(tf_matrix)
+
+@app.route('/idf_matrix', methods=['GET'])
+def get_tf_matrix():
+    directory = config.DATA_URL
+    stopwords = stopword.load()
+    documents = parse_text(directory)
+    stem_data = [stem.process_text(document, stopwords) for document in documents]
+    word_count_list = create_word_count_list(stem_data)
+    term_document_matrix = generate_matrix(word_count_list)
+    idf_matrix = calculator.idf(term_document_matrix)
+    return jsonify(idf_matrix)
+
 
 @app.route('/tf_idf_matrix', methods=['GET'])
 def get_tf_idf_matrix():

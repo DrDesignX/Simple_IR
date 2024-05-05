@@ -1,5 +1,5 @@
 import re
-from nltk.stem import PorterStemmer
+from nltk.stem import PorterStemmer # type: ignore
 
 stemmer = PorterStemmer()
 def process_text(text,stopwords):
@@ -23,8 +23,15 @@ def stem_tokens(tokens):
     stemmed_tokens = [stemmer.stem(token) for token in tokens]
     return stemmed_tokens
 
+# def get_unique_words(word_count_list):
+#     unique_words = set()
+#     for word_count in word_count_list:
+#         unique_words.update(word_count.keys())
+#     return unique_words
+
 def get_unique_words(word_count_list):
     unique_words = set()
     for word_count in word_count_list:
-        unique_words.update(word_count.keys())
+        for word in word_count:
+            unique_words.add(word)
     return unique_words

@@ -36,7 +36,6 @@ log_area.pack()
 def add_custom_log(log_area, message, tag=None):
     log_area.insert(tk.END, message + "\n", tag)
 
-
 # Process button
 process_button = tk.Button(root, text="Process Files", command=lambda: process_files(log_area))
 process_button.pack()
