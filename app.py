@@ -99,13 +99,13 @@ def main():
     term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
     gen_ecxel.gen(term_document_matrix_df, "raw-data.xlsx")
 
-    idf_values_df = calculator.idf(term_document_matrix)
-    idf_df = pd.DataFrame(idf_values_df.items(), columns=["Word", "IDF"])
-    gen_ecxel.gen(idf_df, "idf-data.xlsx")
-
     tf_matrix = calculator.tf(term_document_matrix)
     tf_matrix_df = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
     gen_ecxel.gen(tf_matrix_df, "tf-data.xlsx")
+
+    idf_values_df = calculator.idf(term_document_matrix)
+    idf_df = pd.DataFrame(idf_values_df.items(), columns=["Word", "IDF"])
+    gen_ecxel.gen(idf_df, "idf-data.xlsx")
 
     tf_idf_matrix = calculator.tf_idf(term_document_matrix, tf_matrix_df)
     tf_idf_matrix_df = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
