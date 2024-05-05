@@ -5,7 +5,6 @@ from flask import Flask, jsonify,render_template,request  # type: ignore
 
 app = Flask(__name__)
 
-
 @app.route('/')
 def index():
     return render_template('view/index.html')
@@ -13,17 +12,18 @@ def index():
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
-        return 'هیچ فایلی انتخاب نشده است!'
-    
+        return 'No file has been selected!'
+
     file = request.files['file']
 
     if file.filename == '':
-        return 'فایلی انتخاب نشده است!'
-    
-    # ذخیره فایل در مکان مورد نظر
+        return 'No file selected!'
+        
+    # Save the file to the desired location
     file.save('uploads/' + file.filename)
-    
-    return 'فایل با موفقیت ارسال شد!'
+   
+    return 'File successfully uploaded!'
+
 
 
 @app.route('/word_count', methods=['GET'])
