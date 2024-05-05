@@ -2,12 +2,16 @@ import os
 import pandas as pd
 from utils import stem, calculator, config, stopword, gen_ecxel
 from flask import Flask, jsonify,render_template,request  # type: ignore
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
     return render_template('view/index.html')
+
+UPLOAD_FOLDER = 'uploads'
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -19,11 +23,13 @@ def upload_file():
     if file.filename == '':
         return 'No file selected!'
         
+    filename = secure_filename(file.filename)
+    file_path = os.path.join(UPLOAD_FOLDER, filename)
+    
     # Save the file to the desired location
-    file.save('uploads/' + file.filename)
+    file.save(file_path)
    
-    return 'File successfully uploaded!'
-
+    return 'File successfully uploaded! File path: {}'.format(file_path)
 
 
 @app.route('/word_count', methods=['GET'])
