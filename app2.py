@@ -5,6 +5,16 @@ from flask import Flask, jsonify # type: ignore
 
 app = Flask(__name__)
 
+@app.route('/upload'), methods=['POST'])
+def upload():
+
+
+
+@app.route('/')
+def index():
+    return 'Index Page'
+
+
 @app.route('/word_count', methods=['GET'])
 def get_word_count():
     directory = config.DATA_URL
