@@ -5,7 +5,7 @@ def log_tf(tf):
     if tf == 0:
         return 0  # Logarithm of 0 is undefined
     else:
-        return 1 + math.log(tf)
+        return 1 + math.log10(tf)
 
 def tf(tf_matrix):
     for i in range(1,len(tf_matrix)):
@@ -22,14 +22,12 @@ def idf(term_document_matrix):
     for row in range(1, len(term_document_matrix)):
         word = term_document_matrix[row][0]
         doc_frequency = sum(1 for col in range(1, len(term_document_matrix[row])) if term_document_matrix[row][col] > 0)
-        idf_values[word] = math.log(num_documents / (1 + doc_frequency))
-
+        idf_values[word] = math.log10(num_documents / (1 + doc_frequency))
     return idf_values
 
 
 def tf_idf(term_document_matrix, idf_values):
     tf_idf_matrix = [["Words"] + [f"Document {i}" for i in range(1, len(term_document_matrix[0]))]]
-
     for row in range(1, len(term_document_matrix)):
         word = term_document_matrix[row][0]
         tf_idf_row = [word]

@@ -23,12 +23,6 @@ def stem_tokens(tokens):
     stemmed_tokens = [stemmer.stem(token) for token in tokens]
     return stemmed_tokens
 
-# def get_unique_words(word_count_list):
-#     unique_words = set()
-#     for word_count in word_count_list:
-#         unique_words.update(word_count.keys())
-#     return unique_words
-
 def get_unique_words(word_count_list):
     unique_words = set()
     for word_count in word_count_list:
