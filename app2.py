@@ -1,18 +1,29 @@
 import os
 import pandas as pd
 from utils import stem, calculator, config, stopword, gen_ecxel
-from flask import Flask, jsonify # type: ignore
+from flask import Flask, jsonify,render_template,request  # type: ignore
 
 app = Flask(__name__)
 
-@app.route('/upload'), methods=['POST'])
-def upload():
-
-
-
 @app.route('/')
 def index():
-    return 'Index Page'
+    return render_template('view/index.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return 'No file has been selected!'
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return 'No file selected!'
+        
+    # Save the file to the desired location
+    file.save('uploads/' + file.filename)
+   
+    return 'File successfully uploaded!'
+
 
 
 @app.route('/word_count', methods=['GET'])
