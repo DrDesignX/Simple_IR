@@ -64,28 +64,35 @@ def main():
     documents = parse_text(directory)
     for document in documents:
         stem_data.append(stem.process_text(document, stopwords))
-    
+
     word_count_list = create_word_count_list()
     unique_words_list = stem.get_unique_words(word_count_list)
+    
+    num_unique_words = len(unique_words_list)
+    print("Number of words:", num_unique_words)
+
+    # Create a DataFrame from the list of word counts
+    # unique_word_count_pairs = set((word, count) for word_count in word_count_list for word, count in word_count.items())
+    # word_count_tuples = [(word, count) for word_count in word_count_list for word, count in word_count.items()]
+    # word_dic = pd.DataFrame(unique_word_count_pairs, columns=["Word", "Count"])
+    # word_dic = pd.DataFrame(word_count_tuples, columns=["Word", "Count"])
+    # gen_ecxel.gen(word_dic, "word-data.xlsx")
+
     term_document_matrix = generate_matrix(word_count_list)
+    term_document_matrix = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
+    gen_ecxel.gen(term_document_matrix, "raw-data.xlsx")
+
     idf_values = calculator.idf(term_document_matrix)
-    tf_idf_matrix = calculator.tf_idf(term_document_matrix, idf_values)
+    idf = pd.DataFrame(idf_values.items(), columns=["Word", "IDF"])
+    gen_ecxel.gen(idf, "idf-data.xlsx")
+
     tf_matrix = calculator.tf(term_document_matrix)
-    
-    print("Number of words:", len(unique_words_list))
-    
-    term_document_matrix_df = pd.DataFrame(term_document_matrix[1:], columns=term_document_matrix[0])
-    gen_ecxel.gen(term_document_matrix_df, "raw-data.xlsx")
+    tf_matrix = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
+    gen_ecxel.gen(tf_matrix, "tf-data.xlsx")
 
-
-    idf_df = pd.DataFrame(idf_values.items(), columns=["Word", "IDF"])
-    gen_ecxel.gen(idf_df, "idf-data.xlsx")
-
-    tf_matrix_df = pd.DataFrame(tf_matrix[1:], columns=tf_matrix[0])
-    gen_ecxel.gen(tf_matrix_df, "tf-data.xlsx")
-
-    tf_idf_matrix_df = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
-    gen_ecxel.gen(tf_idf_matrix_df, "tf-idf-data.xlsx")
+    tf_idf_matrix = calculator.tf_idf(term_document_matrix, idf_values)
+    tf_idf_matrix = pd.DataFrame(tf_idf_matrix[1:], columns=tf_idf_matrix[0])
+    gen_ecxel.gen(tf_idf_matrix, "tf-idf-data.xlsx")
 
 if __name__ == "__main__":
     main()
