@@ -1,0 +1,120 @@
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    overflow: hidden;
+}
+
+
+.head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4c4949;
+    align-content: center;
+    align-items: baseline;
+    flex-wrap: nowrap;
+}
+
+.half{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4c4949;
+    align-content: center;
+    align-items: baseline;
+    flex-wrap: nowrap;
+}
+
+.id{
+    border: 1px;
+    padding: 4px 10px;
+    background-color: #e2e2e2;
+    display: inline;
+    font-size: 13px;
+    font-weight: 500;
+    color: #4c4949;
+    border-radius: 20px;
+    margin-right: 8px;
+}
+.author {
+    font-weight: 450;
+    font-size: 13px;
+    color: #4c4949;
+    display: inline;
+}
+
+.search-box {
+    display: flex;
+    border-radius: 4px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    border: #e2e2e2;
+    width: 580px;
+    align-items: center;
+    flex-direction: row;
+    height: 40px;
+}
+
+#query-input {
+    border: 1.5px solid #e9e9e9;
+    margin: 4px;
+    width: -webkit-fill-available;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+}
+
+button {
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: rgb(70, 70, 226);
+    border: none;
+    color: #f4f4f4;
+    height: 40px;
+    padding: 0 12px;
+}
+
+#results {
+    margin-top: 20px;
+    width: 589px;
+}
+
+.result-item {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.result-item h3 {
+    margin: 0 0 -8px 0;
+}
+
+.result-item-text {
+    color: #6c6c6c;
+}
+
+.result-item .similarity {
+    display: inline;
+    font-weight: 500;
+    font-size: 13px;
+    color: #4c4949;
+    display: inline;
+}
+.btn{
+    background-color: unset;
+    color: #3a3af2;
+    font-size: 14px;
+    border: 1px #3a3af2
+}
